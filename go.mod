@@ -1,4 +1,4 @@
-module go-mapper
+module github.com/x21146/go-mapper
 
 go 1.14
 
