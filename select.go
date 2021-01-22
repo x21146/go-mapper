@@ -1,4 +1,4 @@
-package go_mapper
+package mapper
 
 import (
 	"database/sql"
@@ -63,7 +63,7 @@ func (s *dbSelect) toSql() *sqlInfo {
 		where = " WHERE " + strings.Join(condition, " AND ")
 	}
 
-	info.sql = fmt.Sprintf("SELECT %s FROM %s%s", columns, s.tableName, where)
+	info.sql = fmt.Sprintf("SELECT `%s` FROM %s%s", columns, s.tableName, where)
 	return info
 }
 

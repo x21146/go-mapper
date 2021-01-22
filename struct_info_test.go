@@ -1,4 +1,4 @@
-package go_mapper
+package mapper
 
 import (
 	"testing"

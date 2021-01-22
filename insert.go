@@ -1,4 +1,4 @@
-package go_mapper
+package mapper
 
 import (
 	"database/sql"
@@ -8,6 +8,7 @@ import (
 )
 
 type dbInsert struct {
+	info      *structInfo
 	tableName string
 	values    map[string]interface{}
 }
@@ -19,6 +20,7 @@ func toInsert(d interface{}) (*dbInsert, error) {
 	}
 
 	i := &dbInsert{
+		info:      info,
 		tableName: info.table,
 		values:    make(map[string]interface{}),
 	}
@@ -49,7 +51,7 @@ func (i *dbInsert) toSql() *sqlInfo {
 
 	columns := strings.Join(cs, ", ")
 	values := strings.Join(vs, ", ")
-	info.sql = fmt.Sprintf("INSERT INTO %s (%s) VALUES (%s)", i.tableName, columns, values)
+	info.sql = fmt.Sprintf("INSERT INTO `%s` (%s) VALUES (%s)", i.tableName, columns, values)
 
 	return info
 }

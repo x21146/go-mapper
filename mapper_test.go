@@ -1,4 +1,4 @@
-package go_mapper
+package mapper
 
 import (
 	"database/sql"
@@ -98,8 +98,9 @@ func TestBaseMapper(t *testing.T) {
 	wg.Add(1)
 	t.Run("single select test", func(t *testing.T) {
 		defer wg.Done()
-		data := &testStruct{}
-		err := mapper.Select(testStruct{Id: *id1}, data)
+		//data := &testStruct{}
+		data := testStruct{}
+		err := mapper.Select(testStruct{Id: *id1}, &data)
 		if err != nil {
 			t.Log(err.Error())
 			t.FailNow()

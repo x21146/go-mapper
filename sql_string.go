@@ -1,10 +1,14 @@
-package go_mapper
+package mapper
 
 import "database/sql"
 
 type sqlInfo struct {
 	sql  string
 	args []interface{}
+}
+
+type doResult interface {
+	Do(*sql.DB) (int64, error)
 }
 
 func (i *sqlInfo) query(db *sql.DB) (*sql.Rows, error) {

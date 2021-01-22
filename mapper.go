@@ -1,4 +1,4 @@
-package go_mapper
+package mapper
 
 import (
 	"database/sql"
@@ -16,6 +16,14 @@ func (m *BaseMapper) log(args ...interface{}) {
 	} else {
 		m.logger.Println(args...)
 	}
+}
+
+func (m *BaseMapper) do(d doResult, err error) (int64, error) {
+	if err != nil {
+		return 0, err
+	}
+
+	return d.Do(m.Db)
 }
 
 func (m *BaseMapper) Select(condition, out interface{}) error {
@@ -37,19 +45,21 @@ func (m *BaseMapper) SelectCount(condition interface{}) (int64, error) {
 }
 
 func (m *BaseMapper) Insert(data interface{}) (int64, error) {
-	i, err := toInsert(data)
-	if err != nil {
-		return 0, err
-	}
+	return m.do(toInsert(data))
+}
 
-	return i.Do(m.Db)
+func (m *BaseMapper) InsertUpdate(data interface{}) (int64, error) {
+	return m.do(toInsertUpdate(data))
+}
+
+func (m *BaseMapper) InsertNotExists(data, condition interface{}) (int64, error) {
+	return m.do(toInsertNotExists(data, condition))
 }
 
 func (m *BaseMapper) Update(data, condition interface{}) (int64, error) {
-	u, err := toUpdate(data, condition)
-	if err != nil {
-		return 0, err
-	}
+	return m.do(toUpdate(data, condition))
+}
 
-	return u.Do(m.Db)
+func (m *BaseMapper) Delete(condition interface{}) (int64, error) {
+	return m.do(toDelete(condition))
 }

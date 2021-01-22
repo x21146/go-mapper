@@ -1,4 +1,4 @@
-package go_mapper
+package mapper
 
 import (
 	"database/sql"
@@ -91,7 +91,7 @@ func (u *dbUpdate) toSql() *sqlInfo {
 		where = " WHERE " + strings.Join(condition, " AND ")
 	}
 
-	info.sql = fmt.Sprintf("UPDATE %s SET %s%s", u.tableName, set, where)
+	info.sql = fmt.Sprintf("UPDATE `%s` SET %s%s", u.tableName, set, where)
 	return info
 }
 
